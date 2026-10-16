@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIAKAD Terpadu - Institut Teknologi & Sains Cakrawala (ITSC)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* Auth Landing Screen Styles */
+    #auth-screen-container {
+      max-width: 960px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+    .auth-hero-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 800px) {
+      .auth-hero-card { grid-template-columns: 1fr; }
+    }
+    .auth-left-banner {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      color: #ffffff;
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .auth-right-form {
+      padding: 2.5rem 2rem;
+      background: #ffffff;
+    }
+    .auth-tab-btn {
+      flex: 1;
+      padding: 0.6rem;
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .auth-tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    .account-cheat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      background: #f8fafc;
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Security & Audit Status Bar -->
+  <aside id="security-banner" class="security-banner vuln-active" aria-label="Status Keamanan">
+    <div class="security-banner-info">
+      <span id="security-banner-text">
+        ⚠️ <strong>Mode Rentan (Vulnerable Mode 🔴)</strong> — Celah keamanan sengaja dibuka untuk audit latihan & pengujian KSI.
+      </span>
+    </div>
+    <div class="security-banner-actions">
+      <button id="security-toggle-btn" class="mode-toggle-btn" title="Ganti mode keamanan">
+        🛡️ Beralih ke Mode Aman 🟢
+      </button>
+      <button id="open-audit-modal-btn" class="audit-lab-btn" title="Buka panduan audit & PoC">
+        🔍 Lab Audit Keamanan KSI
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================================== -->
+  <!-- SCREEN 1: HALAMAN LOGIN / REGISTER (Ketika Belum Masuk) -->
+  <!-- ============================================== -->
+  <div id="auth-screen-container" style="display: none;">
+    <div class="auth-hero-card">
+      <!-- Left Info Banner -->
+      <div class="auth-left-banner">
+        <div>
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏛️</div>
+          <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.35rem;">SIAKAD ITSC</h2>
+          <p style="font-size: 0.85rem; opacity: 0.85; margin-bottom: 1.5rem;">
+            Institut Teknologi & Sains Cakrawala — Sistem Informasi Akademik & Portal Pembelajaran
+          </p>
+
+          <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+            <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-bottom: 0.4rem;">
+              🔐 Autentikasi Pengguna Mahasiswa & Dosen:
+            </h4>
+            <p style="font-size: 0.75rem; line-height: 1.4; opacity: 0.9;">
+              Setiap mahasiswa dan dosen memiliki akun masing-masing dengan <strong>NIM/NIDN</strong> serta <strong>PIN 6-digit / Kata Sandi</strong>. Anda juga bisa mendaftarkan akun baru secara mandiri.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h5 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #cbd5e1; margin-bottom: 0.5rem;">
+            Akun Percobaan (Sintetis) untuk Penilaian Dosen:
+          </h5>
+          <div style="color: #0f172a;">
+            <div class="account-cheat-row">
+              <div>
+                <strong>Dimas Arya (Mhs 1)</strong><br/>
+                <span style="font-size: 0.7rem; color: #64748b;">NIM: 220555101 | PIN: 123456</span>
+              </div>
+              <button class="btn btn-sm btn-primary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="quickLoginCredential('220555101', '123456')">Masuk ➔</button>
+            </div>
+            <div class="account-cheat-row">
+              <div>
+                <strong>Adinda Zahra (Mhs 2)</strong><br/>
+                <span style="font-size: 0.7rem; color: #64748b;">NIM: 220555102 | PIN: 123456</span>
+              </div>
+              <button class="btn btn-sm btn-primary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="quickLoginCredential('220555102', '123456')">Masuk ➔</button>
+            </div>
+            <div class="account-cheat-row">
+              <div>
+                <strong>Dr. Bagus (Dosen)</strong><br/>
+                <span style="font-size: 0.7rem; color: #64748b;">NIDN: 0415088201 | PIN: dosen123</span>
+              </div>
+              <button class="btn btn-sm btn-primary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="quickLoginCredential('0415088201', 'dosen123')">Masuk ➔</button>
+            </div>
+            <div class="account-cheat-row">
+              <div>
+                <strong>Admin Pusat</strong><br/>
+                <span style="font-size: 0.7rem; color: #64748b;">Username: admin_itsc | Pass: admin123</span>
+              </div>
+              <button class="btn btn-sm btn-danger" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="quickLoginCredential('admin_itsc', 'admin123')">Masuk ➔</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form (Tabs: Login or Register) -->
+      <div class="auth-right-form">
+        <!-- Auth Tab Switcher -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+          <button id="auth-tab-login-btn" class="auth-tab-btn active" onclick="switchAuthTab('login')">
+            🔑 Masuk Akun
+          </button>
+          <button id="auth-tab-register-btn" class="auth-tab-btn" onclick="switchAuthTab('register')">
+            ➕ Daftar Akun Baru
+          </button>
+        </div>
+
+        <!-- Tab 1: Form Login -->
+        <div id="auth-tab-login">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">
+            Masuk ke Portal Akademik
+          </h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            Masukkan Nomor Induk (NIM / NIDN) dan PIN / Kata Sandi Anda.
+          </p>
+
+          <!-- SQL Injection Tester helper banner -->
+          <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: var(--radius-sm); padding: 0.6rem 0.75rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 0.75rem; color: #9f1239;">
+              <strong>🧪 Uji Celah SQL Injection:</strong><br/>
+              Bypass login tanpa sandi di Mode Rentan.
+            </div>
+            <button class="btn btn-sm btn-danger" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="fillSqliLoginPayload()">
+              ⚡ Isi SQLi Payload
+            </button>
+          </div>
+
+          <form onsubmit="handlePortalLogin(event)">
+            <div class="form-group">
+              <label class="form-label">NIM / NIDN / Username:</label>
+              <input type="text" id="auth-input-username" class="form-control" placeholder="Contoh: 220555101 atau admin_itsc" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">PIN 6-Digit atau Kata Sandi:</label>
+              <input type="password" id="auth-input-password" class="form-control" placeholder="Contoh: 123456 atau mahasiswa123">
+              <small style="color: var(--text-light); font-size: 0.75rem;">PIN default seluruh mahasiswa sintetis adalah: <code>123456</code></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.75rem;">
+              Masuk Sekarang 🔓
+            </button>
+          </form>
+        </div>
+
+        <!-- Tab 2: Form Registrasi Mandiri (Bisa Tambah Pengguna Baru) -->
+        <div id="auth-tab-register" style="display: none;">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">
+            Pendaftaran Akun Baru
+          </h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            Daftarkan diri Anda sebagai Mahasiswa atau Dosen baru di portal kampus.
+          </p>
+
+          <form onsubmit="handlePortalRegister(event)">
+            <div class="form-group">
+              <label class="form-label">Daftar Sebagai (Peran):</label>
+              <select id="auth-reg-role" class="form-control" required>
+                <option value="mahasiswa">Mahasiswa</option>
+                <option value="dosen">Dosen</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Nama Lengkap:</label>
+              <input type="text" id="auth-reg-name" class="form-control" placeholder="Contoh: Fajar Nugraha" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">NIM / NIDN:</label>
+              <input type="text" id="auth-reg-identifier" class="form-control" placeholder="Contoh: 220555199" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Username:</label>
+              <input type="text" id="auth-reg-username" class="form-control" placeholder="Contoh: 220555199 atau fajar_nugraha" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">PIN 6-Digit / Kata Sandi Akun:</label>
+              <input type="password" id="auth-reg-password" class="form-control" placeholder="PIN atau kata sandi akun baru" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Program Studi:</label>
+              <input type="text" id="auth-reg-prodi" class="form-control" placeholder="Teknik Informatika" value="Teknik Informatika">
+            </div>
+
+            <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 0.75rem;">
+              Daftarkan & Masuk Otomatis 🚀
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- SCREEN 2: PORTAL UTAMA (Ketika Sudah Login) -->
+  <!-- ============================================== -->
+  <div id="main-portal-container">
+    <!-- Main Academic Header -->
+    <header class="main-header">
+      <div class="header-container">
+        <a href="#" class="brand-wrapper" onclick="switchTab('dashboard')">
+          <div class="brand-logo-icon">🏛️</div>
+          <div>
+            <h1 class="brand-title">SIAKAD ITSC</h1>
+            <p class="brand-subtitle">Institut Teknologi & Sains Cakrawala</p>
+          </div>
+        </a>
+
+        <!-- Main Navigation -->
+        <nav aria-label="Navigasi Utama">
+          <ul class="nav-links">
+            <li>
+              <button class="nav-item-btn active" data-tab="dashboard">
+                📊 Beranda
+              </button>
+            </li>
+            <li>
+              <button class="nav-item-btn" data-tab="grades">
+                📝 Kartu Nilai (KHS)
+              </button>
+            </li>
+            <li>
+              <button class="nav-item-btn" data-tab="assignments">
+                📁 Tugas Kuliah
+              </button>
+            </li>
+            <li>
+              <button class="nav-item-btn" data-tab="forum">
+                💬 Forum Diskusi
+              </button>
+            </li>
+            <li id="nav-item-admin" style="display: none;">
+              <button class="nav-item-btn" data-tab="admin" style="color: #dc2626;">
+                ⚙️ Kelola Akun
+              </button>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Active User Profile Widget & Auth Action Buttons -->
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <button class="btn btn-secondary btn-sm" onclick="openRegisterModal()" title="Tambah akun mahasiswa/dosen baru">
+            ➕ Tambah Pengguna
+          </button>
+          
+          <div class="user-profile-badge" onclick="openProfileModal()" style="cursor: pointer;" title="Klik untuk lihat profil / uji Privilege Escalation">
+            <img id="header-user-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" class="user-avatar-sm" alt="Foto Profil">
+            <div class="user-info-text">
+              <span id="header-user-name" class="user-name-label">Memuat...</span>
+              <span id="header-user-role" class="user-role-tag role-mahasiswa">MAHASISWA</span>
+            </div>
+          </div>
+
+          <!-- Real Logout Button -->
+          <button class="btn btn-danger btn-sm" onclick="handlePortalLogout()" title="Keluar dari akun saat ini">
+            🚪 Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Page Content Area -->
+    <main class="main-wrapper">
+      <!-- Quick User Switcher Aid (Evaluation Helper) -->
+      <div class="quick-switcher-bar">
+        <div class="quick-switcher-title">
+          <span>👤</span>
+          <span>Pintasan Cepat Akun Sintetis (Simulasi Peran Mahasiswa, Dosen & Admin):</span>
+        </div>
+        <div id="quick-user-pills" class="quick-user-pills">
+          <!-- Rendered dynamically via JavaScript -->
+        </div>
+      </div>
+
+      <!-- TAB 1: DASHBOARD -->
+      <section id="panel-dashboard" class="content-panel active">
+        <div class="card" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 2rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span class="badge" style="background: rgba(255,255,255,0.2); color: #ffffff; margin-bottom: 0.5rem;">
+                Semester Ganjil 2025/2026
+              </span>
+              <h2 id="dash-welcome-title" style="font-size: 1.75rem; font-weight: 800; margin-bottom: 0.4rem;">
+                Selamat Datang di Portal Kampus!
+              </h2>
+              <p id="dash-welcome-sub" style="font-size: 0.95rem; opacity: 0.9;">
+                Institut Teknologi & Sains Cakrawala — Sistem Informasi Akademik
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('grades')">Lihat KHS</button>
+              <button class="btn btn-primary btn-sm" style="background: var(--accent); color: #1e1b4b;" onclick="switchTab('assignments')">Unggah Tugas</button>
+              <button class="btn btn-secondary btn-sm" onclick="openRegisterModal()">➕ Tambah Pengguna</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon primary">📚</div>
+            <div class="stat-content">
+              <span class="stat-label">Mata Kuliah Aktif</span>
+              <span id="stat-courses-count" class="stat-value">4</span>
+              <span class="stat-subtext">Semester 5 Terdaftar</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon accent">⏰</div>
+            <div class="stat-content">
+              <span class="stat-label">Penugasan Terbuka</span>
+              <span id="stat-assignments-count" class="stat-value">2</span>
+              <span class="stat-subtext">Praktikum & Proyek</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon success">🛡️</div>
+            <div class="stat-content">
+              <span class="stat-label">Status Otorisasi</span>
+              <span id="stat-role-name" class="stat-value" style="font-size: 1.3rem;">MAHASISWA</span>
+              <span class="stat-subtext">Role-Based Access Control</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Search Bar with SQL Injection Live Tester -->
+        <div class="card" style="margin-bottom: 1.5rem; background: #ffffff;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h4 style="font-size: 1rem; font-weight: 700; color: #1e293b;">🔍 Pencarian Mata Kuliah & Dosen</h4>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">Uji pencarian biasa atau lakukan simulasi pengujian celah SQL Injection.</p>
+            </div>
+            <button class="btn btn-sm btn-danger" onclick="triggerSqliSearchDemo()" title="Isi otomatis dengan payload SQL Injection">
+              ⚡ Uji Payload SQL Injection
+            </button>
+          </div>
+          <form onsubmit="handleCourseSearch(event)" style="display: flex; gap: 0.5rem;">
+            <input type="text" id="course-search-input" class="form-control" placeholder="Cari mata kuliah atau nama dosen... (Contoh: Keamanan, RPL, atau payload SQLi)">
+            <button type="submit" class="btn btn-primary" style="white-space: nowrap;">Cari MK</button>
+            <button type="button" class="btn btn-secondary" onclick="resetCourseSearch()">Reset</button>
+          </form>
+          <div id="course-search-result-info" style="margin-top: 0.5rem; font-size: 0.8rem; display: none;"></div>
+        </div>
+
+        <!-- Course List Preview -->
+        <div class="panel-header">
+          <div>
+            <h3 class="panel-title">📖 Daftar Mata Kuliah Perkuliahan</h3>
+            <p class="panel-description">Jadwal perkuliahan dan informasi dosen pengampu semester berjalan</p>
+          </div>
+        </div>
+        <div id="dash-course-list">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- TAB 2: KARTU HASIL STUDI & NILAI (IDOR) -->
+      <section id="panel-grades" class="content-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">📝 Kartu Hasil Studi (KHS) & Rekap Nilai</h2>
+            <p class="panel-description">Daftar nilai perolehan mahasiswa semester berjalan</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span id="grades-student-target-name" class="badge badge-purple" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">
+              Memuat identitas...
+            </span>
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">
+              🖨️ Cetak Transkrip KHS
+            </button>
+          </div>
+        </div>
+
+        <!-- IDOR Testing Bar -->
+        <div id="grades-idor-bar"></div>
+
+        <!-- IDOR Alert Container -->
+        <div id="grades-idor-alert" style="display: none;"></div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Kode MK</th>
+                  <th>Nama Mata Kuliah</th>
+                  <th>SKS</th>
+                  <th>Dosen Pengampu</th>
+                  <th>Nilai Huruf (Angka)</th>
+                  <th>Kehadiran</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="grades-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 2rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-weight: 700;">
+            <div>Total Beban: <span id="grades-summary-sks" class="badge badge-info" style="font-size: 0.9rem;">-</span></div>
+            <div>Indeks Prestasi Kumulatif (IPK): <span id="grades-summary-gpa" class="badge badge-success" style="font-size: 0.95rem; padding: 0.35rem 0.75rem;">-</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: TUGAS KULIAH & PENGUNGGAHAN -->
+      <section id="panel-assignments" class="content-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">📁 Manajemen Penugasan & Berkas Kuliah</h2>
+            <p class="panel-description">Mahasiswa dapat mengunggah laporan praktikum, Dosen dapat mengevaluasi dan memberi nilai</p>
+          </div>
+          <button id="btn-create-assignment" class="btn btn-primary" onclick="openCreateAssignmentModal()" style="display: none;">
+            ➕ Buat Tugas Baru
+          </button>
+        </div>
+
+        <div id="assignments-list-container">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- TAB 4: FORUM DISKUSI (STORED XSS) -->
+      <section id="panel-forum" class="content-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">💬 Forum Diskusi & Interaksi Akademik</h2>
+            <p class="panel-description">Wadah komunikasi antarmahasiswa dan dosen pengampu seputar materi kuliah</p>
+          </div>
+          <button class="btn btn-primary" onclick="openCreateThreadModal()">
+            ➕ Mulai Diskusi Baru
+          </button>
+        </div>
+
+        <div id="forum-threads-container">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- TAB 5: KELOLA AKUN (ADMIN ONLY) -->
+      <section id="panel-admin" class="content-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">⚙️ Manajemen Akun Pengguna (Admin Biro TI)</h2>
+            <p class="panel-description">Kelola seluruh akun mahasiswa, dosen, dan staf administrasi kampus fiktif</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddUserModal()">
+            ➕ Tambah Akun Pengguna Baru
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Pengguna</th>
+                  <th>Username</th>
+                  <th>Peran</th>
+                  <th>NIM / NIDN</th>
+                  <th>Program Studi</th>
+                  <th>Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODALS -->
+  <!-- ============================================== -->
+
+  <!-- Modal: Tambah Akun Baru (Dari Tombol Header) -->
+  <div id="modal-register-user" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">➕ Pendaftaran & Tambah Akun Pengguna</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-register-user')">&times;</button>
+      </div>
+      <form onsubmit="handleModalRegisterSubmit(event)">
+        <div class="modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Daftarkan akun pengguna baru (Mahasiswa atau Dosen). Jika didaftarkan sebagai Mahasiswa, sistem akan otomatis mendaftarkan mata kuliah semester 5 ke dalam KHS.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label">Peran Pengguna (Role):</label>
+            <select id="reg-user-role" class="form-control" required>
+              <option value="mahasiswa">Mahasiswa</option>
+              <option value="dosen">Dosen</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nama Lengkap:</label>
+            <input type="text" id="reg-user-name" class="form-control" placeholder="Contoh: Fajar Nugraha" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Username:</label>
+            <input type="text" id="reg-user-username" class="form-control" placeholder="Contoh: 220555199 atau fajar_nugraha" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">PIN 6-Digit atau Kata Sandi:</label>
+            <input type="password" id="reg-user-password" class="form-control" placeholder="PIN atau kata sandi akun" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nomor Induk (NIM / NIDN):</label>
+            <input type="text" id="reg-user-identifier" class="form-control" placeholder="Contoh: 220555199">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Program Studi:</label>
+            <input type="text" id="reg-user-prodi" class="form-control" placeholder="Teknik Informatika" value="Teknik Informatika">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-register-user')">Batal</button>
+          <button type="submit" class="btn btn-primary">Daftarkan Akun 🚀</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Profil Pengguna & Uji Privilege Escalation -->
+  <div id="modal-profile" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">👤 Profil Pengguna</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-profile')">&times;</button>
+      </div>
+      <form onsubmit="handleProfileUpdate(event)">
+        <div class="modal-body">
+          <div style="text-align: center; margin-bottom: 1rem;">
+            <img id="profile-modal-avatar" src="" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary);"/>
+            <h4 id="profile-modal-name" style="margin: 0.5rem 0 0.2rem 0; font-size: 1.15rem;"></h4>
+            <span id="profile-modal-role-badge" class="badge badge-purple"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nama Lengkap:</label>
+            <input type="text" id="profile-input-name" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email Kampus:</label>
+            <input type="email" id="profile-input-email" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Program Studi:</label>
+            <input type="text" id="profile-input-prodi" class="form-control">
+          </div>
+
+          <!-- Privilege Escalation Test Section -->
+          <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 0.75rem; border-radius: var(--radius-sm); margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <strong style="font-size: 0.8rem; color: #92400e;">🧪 Pengujian Eskalasi Hak Akses (Privilege Escalation):</strong>
+              <button type="button" class="btn btn-sm btn-danger" onclick="escalateToAdminRole()">
+                ⚡ Ubah Role Jadi ADMIN
+              </button>
+            </div>
+            <p style="font-size: 0.75rem; color: #78350f; margin: 0;">
+              Pada Mode Rentan, klien dapat memodifikasi properti <code>role</code> menjadi <code>admin</code> secara Mass Assignment. Pada Mode Aman, modifikasi role ditolak server.
+            </p>
+            <input type="hidden" id="profile-input-role">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-profile')">Tutup</button>
+          <button type="submit" class="btn btn-primary">Simpan Profil 💾</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Upload Tugas (Mahasiswa) -->
+  <div id="modal-submit-assignment" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="submit-modal-title" class="modal-title">📤 Unggah Berkas Tugas</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-submit-assignment')">&times;</button>
+      </div>
+      <form id="form-submit-assignment" onsubmit="handleSubmissionSubmit(event)">
+        <div class="modal-body">
+          <input type="hidden" id="submit-assignment-id">
+          
+          <div id="upload-vuln-notice"></div>
+
+          <div class="form-group">
+            <label class="form-label">Pilih Berkas Tugas (.pdf, .docx, .zip):</label>
+            <input type="file" id="submissionFile" class="form-control" required>
+            <small style="color: var(--text-light); font-size: 0.75rem;">Maksimal ukuran berkas 15MB.</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Catatan Tambahan Mahasiswa (Opsional):</label>
+            <textarea id="studentNotes" class="form-control" placeholder="Tuliskan catatan pengerjaan tugas kepada dosen..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-submit-assignment')">Batal</button>
+          <button type="submit" class="btn btn-primary">Kirimkan Berkas 🚀</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Lihat Pengumpulan Tugas (Dosen / Mahasiswa) -->
+  <div id="modal-view-submissions" class="modal-overlay">
+    <div class="modal-container large">
+      <div class="modal-header">
+        <h3 id="view-submissions-title" class="modal-title">📂 Berkas Tugas yang Masuk</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-view-submissions')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Mahasiswa</th>
+                <th>Nama Berkas</th>
+                <th>Nilai & Umpan Balik</th>
+                <th>Waktu Unggah</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="submissions-list-table">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-view-submissions')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Beri Nilai Tugas (Dosen) -->
+  <div id="modal-grade-submission" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="grade-modal-title" class="modal-title">⭐ Form Penilaian Tugas</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-grade-submission')">&times;</button>
+      </div>
+      <form onsubmit="handleGradeSubmissionSubmit(event)">
+        <div class="modal-body">
+          <input type="hidden" id="grade-submission-id">
+          
+          <div class="form-group">
+            <label class="form-label">Nilai Angka (Skala 0 - 100):</label>
+            <input type="number" id="grade-score-input" class="form-control" min="0" max="100" step="0.5" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Umpan Balik & Catatan Evaluasi Dosen:</label>
+            <textarea id="grade-feedback-input" class="form-control" placeholder="Contoh: Analisis sangat baik, format laporan rapi..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-grade-submission')">Batal</button>
+          <button type="submit" class="btn btn-success">Simpan Penilaian 💾</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Buat Penugasan Baru (Dosen) -->
+  <div id="modal-create-assignment" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">➕ Buat Penugasan Kuliah Baru</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-create-assignment')">&times;</button>
+      </div>
+      <form onsubmit="handleCreateAssignmentSubmit(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Pilih Mata Kuliah Pengampu:</label>
+            <select id="create-assign-course" class="form-control" required>
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Judul Tugas Kuliah:</label>
+            <input type="text" id="create-assign-title" class="form-control" placeholder="Contoh: Tugas Praktikum 08: Analisis Forensik Jaringan" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Rincian & Instruksi Tugas:</label>
+            <textarea id="create-assign-desc" class="form-control" placeholder="Deskripsikan instruksi tugas, format pengumpulan..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Batas Waktu Pengumpulan (Deadline):</label>
+            <input type="datetime-local" id="create-assign-deadline" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-assignment')">Batal</button>
+          <button type="submit" class="btn btn-primary">Terbitkan Tugas 📢</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Detail Thread & Tanggapan Forum (Stored XSS) -->
+  <div id="modal-thread-details" class="modal-overlay">
+    <div class="modal-container large">
+      <div class="modal-header">
+        <h3 class="modal-title">💬 Diskusi Forum Kampus</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-thread-details')">&times;</button>
+      </div>
+      <div id="thread-details-body" class="modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-thread-details')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Buat Topik Diskusi Baru -->
+  <div id="modal-create-thread" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">✍️ Buat Topik Diskusi Baru</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-create-thread')">&times;</button>
+      </div>
+      <form id="form-create-thread" onsubmit="handleCreateThreadSubmit(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Kategori Forum:</label>
+            <select id="thread-cat-input" class="form-control">
+              <option value="Akademik">Akademik & Perkuliahan</option>
+              <option value="Praktikum KSI">Praktikum Keamanan Sistem</option>
+              <option value="Teknis & Pemrograman">Teknis & Pemrograman</option>
+              <option value="Umum">Diskusi Umum</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Judul Topik Diskusi:</label>
+            <input type="text" id="thread-title-input" class="form-control" placeholder="Contoh: Pembahasan Teknik Bypass WAF pada KSI" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Isi Pembahasan:</label>
+            <textarea id="thread-content-input" class="form-control" style="min-height: 120px;" placeholder="Tuliskan pertanyaan atau materi diskusi..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-thread')">Batal</button>
+          <button type="submit" class="btn btn-primary">Terbitkan Diskusi 📢</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Tambah Pengguna Baru (Admin) -->
+  <div id="modal-add-user" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">➕ Tambah Akun Pengguna Baru (Admin)</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-add-user')">&times;</button>
+      </div>
+      <form id="form-add-user" onsubmit="handleAddUserSubmit(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Peran Pengguna (Role):</label>
+            <select id="add-user-role" class="form-control" required>
+              <option value="mahasiswa">Mahasiswa</option>
+              <option value="dosen">Dosen</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nama Lengkap:</label>
+            <input type="text" id="add-user-name" class="form-control" placeholder="Contoh: Budi Santoso, S.Kom." required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Username:</label>
+            <input type="text" id="add-user-username" class="form-control" placeholder="Contoh: 220555104 atau budi_santoso" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">PIN / Kata Sandi (Password):</label>
+            <input type="password" id="add-user-password" class="form-control" placeholder="Password default akun" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nomor Induk (NIM / NIDN / NIP):</label>
+            <input type="text" id="add-user-identifier" class="form-control" placeholder="Contoh: 220555104">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email:</label>
+            <input type="email" id="add-user-email" class="form-control" placeholder="budi@itsc.ac.id">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Program Studi / Bagian:</label>
+            <input type="text" id="add-user-prodi" class="form-control" placeholder="Teknik Informatika" value="Teknik Informatika">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-add-user')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Akun 💾</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Edit Pengguna (Admin) -->
+  <div id="modal-edit-user" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">✏️ Perbarui Data Akun Pengguna</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-edit-user')">&times;</button>
+      </div>
+      <form onsubmit="handleEditUserSubmit(event)">
+        <div class="modal-body">
+          <input type="hidden" id="edit-user-id">
+
+          <div class="form-group">
+            <label class="form-label">Peran Pengguna (Role):</label>
+            <select id="edit-user-role" class="form-control" required>
+              <option value="mahasiswa">Mahasiswa</option>
+              <option value="dosen">Dosen</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nama Lengkap:</label>
+            <input type="text" id="edit-user-name" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email:</label>
+            <input type="email" id="edit-user-email" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nomor Induk (NIM / NIDN):</label>
+            <input type="text" id="edit-user-identifier" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Program Studi / Bagian:</label>
+            <input type="text" id="edit-user-prodi" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ubah Kata Sandi / PIN (Kosongkan jika tidak diubah):</label>
+            <input type="password" id="edit-user-password" class="form-control" placeholder="Kata sandi baru">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-edit-user')">Batal</button>
+          <button type="submit" class="btn btn-primary">Perbarui Data 💾</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Ubah Nilai KHS oleh Dosen -->
+  <div id="modal-edit-enrollment-grade" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="edit-grade-modal-title" class="modal-title">✏️ Input / Edit Nilai KHS</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-edit-enrollment-grade')">&times;</button>
+      </div>
+      <form onsubmit="handleEditGradeSubmit(event)">
+        <div class="modal-body">
+          <input type="hidden" id="edit-grade-enrollment-id">
+
+          <div class="form-group">
+            <label class="form-label">Nilai Huruf:</label>
+            <select id="edit-grade-letter" class="form-control" required>
+              <option value="A">A (4.0 - Istimewa)</option>
+              <option value="A-">A- (3.7 - Amat Baik)</option>
+              <option value="B+">B+ (3.3 - Lebih dari Baik)</option>
+              <option value="B">B (3.0 - Baik)</option>
+              <option value="B-">B- (2.7 - Cukup Baik)</option>
+              <option value="C+">C+ (2.3 - Lebih dari Cukup)</option>
+              <option value="C">C (2.0 - Cukup)</option>
+              <option value="D">D (1.0 - Kurang)</option>
+              <option value="E">E (0.0 - Gagal)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nilai Angka (Skala 0 - 100):</label>
+            <input type="number" id="edit-grade-number" class="form-control" min="0" max="100" step="0.5" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-edit-enrollment-grade')">Batal</button>
+          <button type="submit" class="btn btn-success">Simpan Nilai 💾</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Laboratorium Audit Keamanan KSI (Informasi Form & Dosen) -->
+  <div id="modal-audit-lab" class="modal-overlay">
+    <div class="modal-container large">
+      <div class="modal-header">
+        <h3 class="modal-title">🔍 Laboratorium Audit Keamanan & Dokumen Pentest</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-audit-lab')">&times;</button>
+      </div>
+      <div id="audit-lab-content" class="modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-audit-lab')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Application Scripts -->
+  <script src="/js/mock-backend.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
